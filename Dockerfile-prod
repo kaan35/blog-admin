@@ -1,0 +1,5 @@
+### Server Side Prod ###
+FROM node:alpine AS build
+WORKDIR /app/admin
+COPY admin ./
+CMD ["npm", "run","serve:ssr"]
