@@ -19,7 +19,7 @@
               </thead>
               <tbody class='divide-y divide-gray-100'>
               <tr *ngFor='let page of pages'>
-                <td class='px-4 py-2'>{{page.title}}</td>
+                <td class='px-4 py-2'><a routerLink='/pages/detail/{{page._id}}'>{{page.title}}</a></td>
                 <td class='px-4 py-2'>
                   <div [ngClass]="{
                        'text-green-500': page.publishStatus === 'published',
@@ -30,7 +30,8 @@
                   </div>
                 </td>
                 <td class='px-4 py-2'>
-                  <a class='flex justify-center items-center text-sm text-gray-600 hover:text-black' href='#'>
+                  <a class='flex justify-center items-center text-sm text-gray-600 hover:text-black'
+                     routerLink='/pages/detail/{{page._id}}'>
                     <div>
                       <svg xmlns='http://www.w3.org/2000/svg' class='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'
                            stroke-width='2'>

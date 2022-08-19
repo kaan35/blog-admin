@@ -1,0 +1,184 @@
+<app-navbar></app-navbar>
+<div class='max-w-full mx-auto'>
+  <div class='flex flex-col sm:flex-row gap-x-5'>
+    <div class='flex-auto pb-6 hidden lg:flex'>
+      <app-menu></app-menu>
+    </div>
+    <div class='sm:w-5/6 pb-6'>
+      <div class='flex flex-col justify-center px-10 gap-4 mt-10'>
+        <div class='bg-white border border-gray-100 rounded-lg shadow-lg pb-10 pt-5 px-5'>
+          <div class='pb-5 text-md text-gray-600'>Page Detail</div>
+          <div class='overflow-hidden overflow-x-auto border border-gray-100 rounded'>
+            <form [formGroup]='formData' (ngSubmit)='onSubmit()'>
+              <div class='space-y-5 xl:w-2/3 mx-auto my-20 px-5'>
+                <div [ngClass]="notificationShow ? 'block' : 'hidden'">
+                  <div class='bg-white rounded-lg shadow-lg p-5'>
+                    <div class='flex justify-between'>
+                      <div class='flex-none w-14 items-center'>
+                        <div *ngIf="notificationStatus === 'success'">
+                          <div class='bg-green-200 rounded-full p-2'>
+                            <svg xmlns='http://www.w3.org/2000/svg' class='w-auto text-green-700' fill='none'
+                                 viewBox='0 0 24 24' stroke='currentColor' stroke-width='2'>
+                              <path stroke-linecap='round' stroke-linejoin='round'
+                                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                            </svg>
+                          </div>
+                        </div>
+                        <div *ngIf="notificationStatus === 'error'">
+                          <div class='bg-red-200 rounded-full p-2'>
+                            <svg xmlns='http://www.w3.org/2000/svg' class='w-auto text-red-700' fill='none'
+                                 viewBox='0 0 24 24' stroke='currentColor' stroke-width='2'>
+                              <path stroke-linecap='round' stroke-linejoin='round'
+                                    d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='flex-auto'>
+                        <div class='text-center flex flex-col text-center items-center'>
+                          <h3 class='text-lg leading-6 text-gray-900'>Notification</h3>
+                          <div class='mt-2'>
+                            <p class='text-sm text-gray-500'>{{ notificationMessage }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label>
+                    <div class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm text-slate-700">
+                      Title
+                    </div>
+                    <input
+                      type='text'
+                      name='title'
+                      formControlName='title'
+                      [ngClass]="formData.controls['title'].touched
+                      && formData.controls['title'].invalid
+                      ? 'border-red-500 focus:border-red-500' : ''"
+                      class='mt-1 px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-current w-full rounded-md'
+                      placeholder='Title' />
+                    <div *ngIf="formData.controls['title'].touched && formData.controls['title'].invalid">
+                      <div *ngIf="formData.controls['title'].errors?.['required']">
+                        <p class='mt-2 text-red-600 text-sm'>Title is required.</p>
+                      </div>
+                      <div *ngIf="formData.controls['title'].errors?.['minlength']">
+                        <p class='mt-2 text-red-600 text-sm'>Title must be at least 3 characters long.</p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <div class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm text-slate-700">
+                      Content
+                    </div>
+                    <textarea
+                      [ngClass]="formData.controls['content'].touched
+                      && formData.controls['content'].invalid
+                      ? 'border-red-500 focus:border-red-500' : ''"
+                      class='mt-1 px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400
+                      focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-current w-full rounded-md'
+                      rows='10'
+                      name='content'
+                      formControlName='content'></textarea>
+                    <div *ngIf="formData.controls['content'].touched && formData.controls['content'].invalid">
+                      <div *ngIf="formData.controls['content'].errors?.['required']">
+                        <p class='mt-2 text-red-600 text-sm'>Content is required.</p>
+                      </div>
+                      <div *ngIf="formData.controls['content'].errors?.['minlength']">
+                        <p class='mt-2 text-red-600 text-sm'>Content must be at least 3 characters long.</p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <div class="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm text-slate-700">
+                      Publish Status
+                    </div>
+                  </label>
+                  <div>
+                    <div class='grid sm:grid-cols-2 gap-8 mt-2'>
+                      <div class='relative'>
+                        <input class='hidden group peer' type='radio' [checked]="page?.publishStatus === 'published'"
+                               formControlName='publishStatus' value='published' id='publishStatus_1' />
+                        <label
+                          class='block p-4 text-sm transition-all
+                          border border-gray-100 rounded-lg shadow-sm cursor-pointer
+                          hover:bg-gray-50 peer-checked:border-blue-500
+                          peer-checked:ring-1 peer-checked:ring-blue-500'
+                          for='publishStatus_1'>
+                          <span>Published</span>
+                        </label>
+                        <svg xmlns='http://www.w3.org/2000/svg'
+                             class='h-6 w-6 absolute w-5 h-5 top-4 right-4 text-blue-600 opacity-0 peer-checked:opacity-100'
+                             fill='none' viewBox='0 0 24 24' stroke='currentColor' stroke-width='2'>
+                          <path stroke-linecap='round' stroke-linejoin='round'
+                                d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                        </svg>
+                      </div>
+                      <div class='relative'>
+                        <input class='hidden group peer' type='radio' [checked]="page?.publishStatus === 'draft'"
+                               formControlName='publishStatus' value='draft' id='publishStatus_2' />
+                        <label
+                          class='block p-4 text-sm transition-all
+                          border border-gray-100 rounded-lg shadow-sm cursor-pointer
+                          hover:bg-gray-50 peer-checked:border-blue-500
+                          peer-checked:ring-1 peer-checked:ring-blue-500'
+                          for='publishStatus_2'>
+                          <span>Draft</span>
+                        </label>
+                        <svg xmlns='http://www.w3.org/2000/svg'
+                             class='h-6 w-6 absolute w-5 h-5 top-4 right-4 text-blue-600 opacity-0 peer-checked:opacity-100'
+                             fill='none' viewBox='0 0 24 24' stroke='currentColor' stroke-width='2'>
+                          <path stroke-linecap='round' stroke-linejoin='round'
+                                d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label>
+                    <div class='block text-sm text-slate-700'>Publish Date</div>
+                    <div class='text-sm text-slate-700'>{{ page?.publishDate || "Unknown date" }}</div>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <div class='block text-sm text-slate-700'>Create Date</div>
+                    <div class='text-sm text-slate-700'>{{ page?.createDateTime || "Unknown date" }}</div>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <div class='block text-sm text-slate-700'>Last Update Date</div>
+                    <div class='text-sm text-slate-700'>{{ page?.updateDateTime || "Unknown date" }}</div>
+                  </label>
+                </div>
+                <div>
+                  <button
+                    type='submit'
+                    class='group relative w-full flex justify-center py-2 px-4
+                    border border-transparent rounded-md text-sm text-white bg-blue-600
+                    hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'>
+                    <div class='absolute left-0 inset-y-0 flex items-center pl-3'>
+                      <svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24'
+                           stroke='currentColor' stroke-width='2'>
+                        <path stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7' />
+                      </svg>
+                    </div>
+                    Save
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

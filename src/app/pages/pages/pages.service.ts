@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Page } from './page';
 import { environment } from '../../../environments/environment';
 
@@ -12,7 +12,17 @@ export class PagesService {
 
   private apiUrl = environment.apiUrl;
 
+  detail(id: string): Observable<Page> {
+    return this.http.get<Page>(this.apiUrl + 'pages/' + id);
+  }
+
   items(): Observable<Page[]> {
     return this.http.get<Page[]>(this.apiUrl + 'pages');
+  }
+
+  onSubmitDetail(data: object, id: string) {
+    return this.http
+      .patch<any>(this.apiUrl + 'pages/' + id, data)
+      .pipe(map((data, error) => (data ? data : error)));
   }
 }

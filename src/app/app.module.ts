@@ -7,6 +7,8 @@ import { IndexComponent } from './pages/index/index.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { PagesListComponent } from './pages/pages/pages-list/pages-list.component';
+import { PagesDetailComponent } from './pages/pages/pages-detail/pages-detail.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,11 +17,13 @@ import { PagesListComponent } from './pages/pages/pages-list/pages-list.componen
     NavbarComponent,
     MenuComponent,
     PagesListComponent,
+    PagesDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
