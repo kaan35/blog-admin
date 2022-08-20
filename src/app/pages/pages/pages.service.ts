@@ -25,4 +25,10 @@ export class PagesService {
       .patch<any>(this.apiUrl + 'pages/' + id, data)
       .pipe(map((data, error) => (data ? data : error)));
   }
+
+  remove(id: string) {
+    return this.http
+      .delete<any>(this.apiUrl + 'pages/' + id)
+      .pipe(map((data, error) => (data ? data : error)));
+  }
 }

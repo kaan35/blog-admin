@@ -9,6 +9,9 @@ import { Page } from '../page';
 })
 export class PagesListComponent implements OnInit {
   pages: Page[] = [];
+  notificationShow: boolean = false;
+  notificationMessage: string | undefined;
+  notificationStatus: string | undefined;
 
   constructor(private pagesService: PagesService) {}
 
@@ -18,5 +21,16 @@ export class PagesListComponent implements OnInit {
 
   records(): void {
     this.pagesService.items().subscribe((pages) => (this.pages = pages));
+  }
+
+  remove(id: string): void {
+    this.pagesService.remove(id).subscribe((response) => {
+      this.notificationShow = true;
+      this.notificationMessage = response.message;
+      this.notificationStatus = response.status;
+      if (response.status == 'success') {
+        this.records();
+      }
+    });
   }
 }
