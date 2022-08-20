@@ -46,7 +46,6 @@ export class PagesDetailComponent implements OnInit {
 
   onSubmit() {
     const id = String(this.route.snapshot.paramMap.get('id'));
-    console.log(this.formData.valid);
     if (this.formData.valid) {
       this.pagesService
         .onSubmitDetail(this.formData.value, id)
@@ -54,6 +53,9 @@ export class PagesDetailComponent implements OnInit {
           this.notificationShow = true;
           this.notificationMessage = response.message;
           this.notificationStatus = response.status;
+          if (response.status == 'success') {
+            this.page = response.data;
+          }
         });
     } else {
       this.notificationShow = true;
