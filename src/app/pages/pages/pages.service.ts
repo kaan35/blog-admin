@@ -20,6 +20,12 @@ export class PagesService {
     return this.http.get<Page[]>(this.apiUrl + 'pages');
   }
 
+  onSubmitAdd(data: object) {
+    return this.http
+      .post<any>(this.apiUrl + 'pages/', data)
+      .pipe(map((data, error) => (data ? data : error)));
+  }
+
   onSubmitDetail(data: object, id: string) {
     return this.http
       .patch<any>(this.apiUrl + 'pages/' + id, data)

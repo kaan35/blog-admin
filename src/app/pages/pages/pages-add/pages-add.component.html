@@ -7,7 +7,7 @@
     <div class='sm:w-5/6 pb-6'>
       <div class='flex flex-col justify-center px-10 gap-4 mt-10'>
         <div class='bg-white border border-gray-100 rounded-lg shadow-lg pb-10 pt-5 px-5'>
-          <div class='pb-5 text-md text-gray-600'>Page Detail</div>
+          <div class='pb-5 text-md text-gray-600'>Page Add</div>
           <div class='overflow-hidden overflow-x-auto border border-gray-100 rounded'>
             <form [formGroup]='formData' (ngSubmit)='onSubmit()'>
               <div class='space-y-5 xl:w-2/3 mx-auto my-20 px-5'>
@@ -103,8 +103,8 @@
                   <div>
                     <div class='grid sm:grid-cols-2 gap-8 mt-2'>
                       <div class='relative'>
-                        <input class='hidden group peer' type='radio' [checked]="page?.publishStatus === 'published'"
-                               formControlName='publishStatus' value='published' id='publishStatus_1' />
+                        <input class='hidden group peer' type='radio' formControlName='publishStatus' value='published'
+                               id='publishStatus_1' />
                         <label
                           class='block p-4 text-sm transition-all
                           border border-gray-100 rounded-lg shadow-sm cursor-pointer
@@ -121,8 +121,8 @@
                         </svg>
                       </div>
                       <div class='relative'>
-                        <input class='hidden group peer' type='radio' [checked]="page?.publishStatus === 'draft'"
-                               formControlName='publishStatus' value='draft' id='publishStatus_2' />
+                        <input class='hidden group peer' type='radio' formControlName='publishStatus' value='draft'
+                               id='publishStatus_2' />
                         <label
                           class='block p-4 text-sm transition-all
                           border border-gray-100 rounded-lg shadow-sm cursor-pointer
@@ -140,18 +140,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div>
-                  <label>
-                    <div class='block text-sm text-slate-700'>Create Date</div>
-                    <div class='text-sm text-slate-700'>{{ page?.createDateTime || "Unknown date" }}</div>
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <div class='block text-sm text-slate-700'>Update Date</div>
-                    <div class='text-sm text-slate-700'>{{ page?.updateDateTime || "Unknown date" }}</div>
-                  </label>
                 </div>
                 <div class='pt-5'>
                   <button
