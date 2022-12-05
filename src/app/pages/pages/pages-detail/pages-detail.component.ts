@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PagesService } from '../pages.service';
 import { Page } from '../page';
+import { NotificationService } from '../../../components/notification/notification.service';
 import {
   FormBuilder,
   FormControl,
@@ -16,9 +17,6 @@ import {
 })
 export class PagesDetailComponent implements OnInit {
   page: Page | undefined;
-  notificationShow: boolean = false;
-  notificationMessage: string | undefined;
-  notificationStatus: string | undefined;
   formData = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(3)]),
     content: new FormControl('', [
@@ -30,8 +28,9 @@ export class PagesDetailComponent implements OnInit {
 
   constructor(
     private builder: FormBuilder,
-    private route: ActivatedRoute,
-    private pagesService: PagesService
+    private notificationService: NotificationService,
+    private pagesService: PagesService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
@@ -50,17 +49,17 @@ export class PagesDetailComponent implements OnInit {
       this.pagesService
         .onSubmitDetail(this.formData.value, id)
         .subscribe((response) => {
-          this.notificationShow = true;
-          this.notificationMessage = response.message;
-          this.notificationStatus = response.status;
-          if (response.status == 'success') {
-            this.page = response.data;
+          const { data, message, status } = response;
+          this.notificationService.create({ status, message });
+          if (status == 'success') {
+            this.page = data;
           }
         });
     } else {
-      this.notificationShow = true;
-      this.notificationMessage = 'Form not valid';
-      this.notificationStatus = 'error';
+      this.notificationService.create({
+        message: 'Form not valid',
+        status: 'error',
+      });
     }
   }
 }

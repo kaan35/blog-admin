@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PagesService } from '../pages.service';
 import { Page } from '../page';
+import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({
   selector: 'app-pages-list',
@@ -9,11 +10,11 @@ import { Page } from '../page';
 })
 export class PagesListComponent implements OnInit {
   pages: Page[] = [];
-  notificationShow: boolean = false;
-  notificationMessage: string | undefined;
-  notificationStatus: string | undefined;
 
-  constructor(private pagesService: PagesService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private pagesService: PagesService
+  ) {}
 
   ngOnInit(): void {
     this.records();
@@ -25,10 +26,9 @@ export class PagesListComponent implements OnInit {
 
   remove(id: string): void {
     this.pagesService.remove(id).subscribe((response) => {
-      this.notificationShow = true;
-      this.notificationMessage = response.message;
-      this.notificationStatus = response.status;
-      if (response.status == 'success') {
+      const { message, status } = response;
+      this.notificationService.create({ status, message });
+      if (status == 'success') {
         this.records();
       }
     });

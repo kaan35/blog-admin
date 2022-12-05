@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagesService } from '../pages.service';
+import { NotificationService } from '../../../components/notification/notification.service';
 
 @Component({
   selector: 'app-pages-add',
@@ -16,9 +17,6 @@ import { PagesService } from '../pages.service';
 })
 export class PagesAddComponent implements OnInit {
   page: Page | undefined;
-  notificationShow: boolean = false;
-  notificationMessage: string | undefined;
-  notificationStatus: string | undefined;
   formData = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(3)]),
     content: new FormControl('', [
@@ -30,9 +28,10 @@ export class PagesAddComponent implements OnInit {
 
   constructor(
     private builder: FormBuilder,
+    private notificationService: NotificationService,
+    private pagesService: PagesService,
     private route: ActivatedRoute,
-    private router: Router,
-    private pagesService: PagesService
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -42,17 +41,17 @@ export class PagesAddComponent implements OnInit {
       this.pagesService
         .onSubmitAdd(this.formData.value)
         .subscribe((response) => {
-          this.notificationShow = true;
-          this.notificationMessage = response.message;
-          this.notificationStatus = response.status;
-          if (response.status == 'success') {
-            this.router.navigate(['pages/detail/' + response.data._id]);
+          const { data, message, status } = response;
+          this.notificationService.create({ status, message });
+          if (status == 'success') {
+            this.router.navigate(['pages/detail/' + data._id]);
           }
         });
     } else {
-      this.notificationShow = true;
-      this.notificationMessage = 'Form not valid';
-      this.notificationStatus = 'error';
+      this.notificationService.create({
+        message: 'Form not valid',
+        status: 'error',
+      });
     }
   }
 }

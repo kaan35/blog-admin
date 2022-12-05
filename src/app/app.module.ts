@@ -10,6 +10,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { PagesListComponent } from './pages/pages/pages-list/pages-list.component';
 import { PagesDetailComponent } from './pages/pages/pages-detail/pages-detail.component';
 import { PagesAddComponent } from './pages/pages/pages-add/pages-add.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { PagesAddComponent } from './pages/pages/pages-add/pages-add.component';
     PagesListComponent,
     PagesAddComponent,
     PagesDetailComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
